@@ -50,3 +50,22 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** Gets new story from form and adds to the page */
+
+async function addStoryOnPage(evt) {
+  evt.preventDefault();
+  console.debug("putStoriesOnPage");
+
+  let title = $("#story-title").val();
+  let author = $("#story-author").val();
+  let url = $("#story-url").val();
+  let story = await storyList.addStory(currentUser, {title, author, url});
+  let $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
+
+  $newStoryForm.trigger("reset");
+  $newStoryForm.hide();
+}
+
+$newStoryForm.on("submit", addStoryOnPage);
