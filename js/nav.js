@@ -34,9 +34,10 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
   $navSubmitStory.parent().show();
+  $navFavorites.parent().show();
 }
 
-/** Show new story form on click on "Submit" */
+/** Show new story form on click on "submit" */
 
 function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
@@ -44,3 +45,13 @@ function navSubmitClick(evt) {
 }
 
 $navSubmitStory.on("click", navSubmitClick);
+
+/** Show favorites on click on "favorites" */
+
+function navFavoritesClick(evt) {
+  console.debug("navFavoritesClick", evt);
+  hidePageComponents();
+  $allFavoritesList.show();
+}
+
+$navFavorites.on("click", navFavoritesClick);
