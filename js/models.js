@@ -205,4 +205,37 @@ class User {
       return null;
     }
   }
+
+  /** Return true/false if given Story instance is a favorite of this user. */
+
+  isFavorite(story) {
+    return this.favorites.some(s => (s.storyId === story.storyId));
+  }
+
+  /** Add or remove favorite status to a story */
+  async addOrRemoveFavorites(story) {
+    if (this.isFavorite(story)) {
+      this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
+      const token = this.loginToken;
+      await axios({
+        method: "DELETE",
+        url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+        data: {
+          token: token
+        }
+      });
+    }
+    else {
+      this.favorites.push(story);
+      const token = this.loginToken;
+      await axios({
+        method: "POST",
+        url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+        data: {
+          token: token
+        }
+      });
+    }
+  }
+
 }

@@ -21,10 +21,12 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
+  const checkLogin = Boolean(currentUser);
 
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+      ${checkLogin ? getHeartHTML(story, currentUser) : ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -33,6 +35,55 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+/** Make favorite/not-favorite heart for story */
+
+function getHeartHTML(story, user) {
+  const isFavorite = user.isFavorite(story);
+  const heartType = isFavorite ? "fas" : "far";
+  return `
+      <span class="heart">
+        <i class="${heartType} fa-heart"></i>
+      </span>`;
+}
+
+/** Toggle favorites on click on heart & add or remove favorite story */
+async function toggleFavorites(evt) {
+  console.debug("toggleFavorites");
+  const $targetHeart = $(evt.target).closest("i");
+  const $targetStory = $(evt.target).closest("li");
+  const $targetStoryId = $targetStory.attr("id");
+  const story = storyList.stories.find(s => s.storyId === $targetStoryId);
+  if ($targetHeart.hasClass("far"))
+  {
+    await currentUser.addOrRemoveFavorites(story);
+    $targetHeart.toggleClass("far fas");
+  }
+  else
+  {
+    await currentUser.addOrRemoveFavorites(story);
+    $targetHeart.toggleClass("far fas");
+  }
+}
+
+$allStoriesList.on("click", ".heart", toggleFavorites);
+
+/** Gets list of favorites from server, generates their HTML, and puts on page. */
+
+function putFavStoriesOnPage() {
+  console.debug("putFavStoriesOnPage");
+
+  $allFavoritesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    $allFavoritesList.append($story);
+  }
+
+  $allFavoritesList.show();
+
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
