@@ -73,7 +73,6 @@ $allStoriesList.on("click", ".heart", toggleFavorites);
 
 function putFavStoriesOnPage() {
   console.debug("putFavStoriesOnPage");
-
   $allFavoritesList.empty();
 
   // loop through all of our stories and generate HTML for them
@@ -90,7 +89,6 @@ function putFavStoriesOnPage() {
 
 function putStoriesOnPage() {
   console.debug("putStoriesOnPage");
-
   $allStoriesList.empty();
 
   // loop through all of our stories and generate HTML for them
@@ -120,3 +118,9 @@ async function addStoryOnPage(evt) {
 }
 
 $newStoryForm.on("submit", addStoryOnPage);
+
+/** Put current user added stories on page */
+
+function putAddedStoriesOnPage() {
+  $myStoriesList.show();
+}
