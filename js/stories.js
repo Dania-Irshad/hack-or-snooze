@@ -65,6 +65,7 @@ async function toggleFavorites(evt) {
 }
 
 $allStoriesList.on("click", ".heart", toggleFavorites);
+$allFavoritesList.on("click", ".heart", toggleFavorites);
 
 /** Gets list of favorites from server, generates their HTML, and puts on page. */
 
