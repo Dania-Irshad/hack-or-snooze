@@ -1,10 +1,10 @@
 /* Lists of stories */
 
-.stories-list {
+.stories-list, .my-stories, .favorites-list {
   margin: 20px 5px;
 }
 
-.stories-list > li {
+.stories-list, .my-stories, .favorites-list > li {
   color: gray;
   font-size: 0.8rem;
   margin: 10px 0;

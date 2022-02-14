@@ -24,8 +24,9 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    let domain = new URL(this.url);
+    let hostname = domain.hostname;
+    return hostname;
   }
 }
 
@@ -87,6 +88,21 @@ class StoryList {
     this.stories.unshift(story);
     user.ownStories.unshift(story);
     return story;
+  }
+
+  /** Deletes story from API */
+  async deleteStory(user, story) {
+    const token = user.loginToken;
+    await axios({
+      method: "DELETE",
+      url: `${BASE_URL}/stories/${story.storyId}`,
+      data: {
+        token: token
+      }
+    });
+    this.stories = this.stories.filter(s => (s.storyId !== story.storyId));
+    user.favorites = user.favorites.filter(s => (s.storyId !== story.storyId));
+    user.ownStories = user.ownStories.filter(s => (s.storyId !== story.storyId));
   }
 }
 
