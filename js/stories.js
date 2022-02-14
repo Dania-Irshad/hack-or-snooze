@@ -70,17 +70,12 @@ $allStoriesList.on("click", ".heart", toggleFavorites);
 
 function putFavStoriesOnPage() {
   //console.debug("putFavStoriesOnPage");
-  if ($allFavoritesList.has("li").length == -1) {
-    $allFavoritesList.html("<div>No favorites added!</div>");
-  }
-  else {
-    $allFavoritesList.empty();
+  $allFavoritesList.empty();
 
-    // loop through all favorited stories and generate HTML for them
-    for (let story of currentUser.favorites) {
-      const $story = generateStoryMarkup(story);
-      $allFavoritesList.append($story);
-    }
+  // loop through all favorited stories and generate HTML for them
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    $allFavoritesList.append($story);
   }
   $allFavoritesList.show();
 }
@@ -142,17 +137,12 @@ function generateMyStoryMarkup(story) {
 
 function putAddedStoriesOnPage() {
   //console.debug("putAddedStoriesOnPage");
-  if ($myStoriesList.has("li").length == -1) {
-    $myStoriesList.html("<div>No stories added by user yet!</div>");
-  }
-  else {
-    $myStoriesList.empty();
+  $myStoriesList.empty();
 
-    // loop through all of user added stories and generate HTML for them
-    for (let story of currentUser.ownStories) {
-      const $story = generateMyStoryMarkup(story);
-      $myStoriesList.append($story);
-    }
+  // loop through all of user added stories and generate HTML for them
+  for (let story of currentUser.ownStories) {
+    const $story = generateMyStoryMarkup(story);
+    $myStoriesList.append($story);
   }
   $myStoriesList.show();
 }
