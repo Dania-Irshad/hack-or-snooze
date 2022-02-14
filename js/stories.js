@@ -49,18 +49,16 @@ function getHeartHTML(story, user) {
 
 /** Toggle favorites on click on heart & add or remove favorite story */
 async function toggleFavorites(evt) {
-  console.debug("toggleFavorites");
+  //console.debug("toggleFavorites");
   const $targetHeart = $(evt.target).closest("i");
   const $targetStory = $(evt.target).closest("li");
   const $targetStoryId = $targetStory.attr("id");
   const story = storyList.stories.find(s => s.storyId === $targetStoryId);
-  if ($targetHeart.hasClass("far"))
-  {
+  if ($targetHeart.hasClass("far")) {
     await currentUser.addOrRemoveFavorites(story);
     $targetHeart.toggleClass("far fas");
   }
-  else
-  {
+  else {
     await currentUser.addOrRemoveFavorites(story);
     $targetHeart.toggleClass("far fas");
   }
@@ -71,23 +69,26 @@ $allStoriesList.on("click", ".heart", toggleFavorites);
 /** Gets list of favorites from server, generates their HTML, and puts on page. */
 
 function putFavStoriesOnPage() {
-  console.debug("putFavStoriesOnPage");
-  $allFavoritesList.empty();
-
-  // loop through all of our stories and generate HTML for them
-  for (let story of currentUser.favorites) {
-    const $story = generateStoryMarkup(story);
-    $allFavoritesList.append($story);
+  //console.debug("putFavStoriesOnPage");
+  if ($allFavoritesList.has("li").length == -1) {
+    $allFavoritesList.html("<div>No favorites added!</div>");
   }
+  else {
+    $allFavoritesList.empty();
 
+    // loop through all favorited stories and generate HTML for them
+    for (let story of currentUser.favorites) {
+      const $story = generateStoryMarkup(story);
+      $allFavoritesList.append($story);
+    }
+  }
   $allFavoritesList.show();
-
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
-  console.debug("putStoriesOnPage");
+  //console.debug("putStoriesOnPage");
   $allStoriesList.empty();
 
   // loop through all of our stories and generate HTML for them
@@ -103,12 +104,12 @@ function putStoriesOnPage() {
 
 async function addStoryOnPage(evt) {
   evt.preventDefault();
-  console.debug("addStoryOnPage");
+  //console.debug("addStoryOnPage");
 
   let title = $("#story-title").val();
   let author = $("#story-author").val();
   let url = $("#story-url").val();
-  let story = await storyList.addStory(currentUser, {title, author, url});
+  let story = await storyList.addStory(currentUser, { title, author, url });
   let $story = generateStoryMarkup(story);
   $allStoriesList.prepend($story);
 
@@ -140,21 +141,24 @@ function generateMyStoryMarkup(story) {
 /** Put current user added stories on page */
 
 function putAddedStoriesOnPage() {
-  console.debug("putAddedStoriesOnPage");
-  $myStoriesList.empty();
-
-  // loop through all of user added stories and generate HTML for them
-  for (let story of currentUser.ownStories) {
-    const $story = generateMyStoryMarkup(story);
-    $myStoriesList.append($story);
+  //console.debug("putAddedStoriesOnPage");
+  if ($myStoriesList.has("li").length == -1) {
+    $myStoriesList.html("<div>No stories added by user yet!</div>");
   }
+  else {
+    $myStoriesList.empty();
 
+    // loop through all of user added stories and generate HTML for them
+    for (let story of currentUser.ownStories) {
+      const $story = generateMyStoryMarkup(story);
+      $myStoriesList.append($story);
+    }
+  }
   $myStoriesList.show();
 }
 
-async function deleteStoryOnClick(evt)
-{
-  console.debug("deleteStoryOnClick");
+async function deleteStoryOnClick(evt) {
+  //console.debug("deleteStoryOnClick");
   const $targetStory = $(evt.target).closest("li");
   const $targetStoryId = $targetStory.attr("id");
   const story = storyList.stories.find(s => s.storyId === $targetStoryId);
