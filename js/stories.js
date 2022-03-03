@@ -110,6 +110,8 @@ async function addStoryOnPage(evt) {
   $allStoriesList.prepend($story);
 
   $newStoryForm.trigger("reset");
+  $allStoriesList.show();
+  $newStoryForm.hide();
 }
 
 $newStoryForm.on("submit", addStoryOnPage);
